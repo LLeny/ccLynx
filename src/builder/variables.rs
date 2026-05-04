@@ -51,14 +51,13 @@ fn write_variable_len(
         };
         var.size * s
     } else {
-        let s = match var.var_type {
+        match var.var_type {
             VariableType::Char => 1,
             VariableType::Short
             | VariableType::CharPtr
             | VariableType::CharPtrPtr
             | VariableType::ShortPtr => 2,
-        };
-        s
+        }
     };
 
     if let VariableDefinition::Array(values) = &var.def && var.var_type == VariableType::CharPtr {
@@ -71,9 +70,9 @@ fn write_variable_len(
             .map(|b| b as char)
             .collect();
 
-        gstate.write(&format!("{:23}\tdb \"{}\",0\n", name, string_value))?;
+        gstate.write(&format!("{name:23}\tdb \"{string_value}\",0\n"))?;
     } else {
-        gstate.write(&format!("{:23}\tds {}\n", name, len))?;
+        gstate.write(&format!("{name:23}\tds {len}\n"))?;
     }
 
     Ok(len)

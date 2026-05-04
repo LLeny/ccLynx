@@ -156,7 +156,7 @@ pub(crate) fn write_functions(
             continue;
         }
 
-        if !gstate.functions_actually_in_use.contains(f.0) {
+        if !gstate.functions_actually_in_use.contains(f.0) && !f.1.interrupt {
             debug!("Skipped function {}", f.0.as_str());
             processed.insert(f.0.clone());
             continue;

@@ -38,7 +38,7 @@ _seclynxread0:
 ; Read one byte from cartridge
 ;**********************************
 _secreadbyte0:
-        lda     $FCB2 ; RCART0
+        lda     RCART0
         inc     FileBlockByte
         bne     ._blockexit
         inc     FileBlockByte+1
@@ -62,19 +62,19 @@ _seclynxblock:
         bra     ._block2
 ._block0:
         bcc     ._block1
-        stx     $FD8B ; IODAT
+        stx     IODAT
         clc
 ._block1:
         inx
-        stx     $FD87 ; SYSCTL1
+        stx     SYSCTL1
         dex
 ._block2:
-        stx     $FD87 ; SYSCTL1
+        stx     SYSCTL1
         rol
-        sty     $FD8B ; IODAT
+        sty     IODAT
         bne     ._block0
         lda     __iodat
-        sta     $FD8B ; IODAT
+        sta     IODAT
         stz     FileBlockByte
         lda     #<($100-(>BLOCKSIZE))
         sta     FileBlockByte+1
@@ -109,7 +109,7 @@ open_load_bank:
         ldx #$00
         ldy #8
 .openloop:
-        lda     $FCB2 ; RCART0 
+        lda     RCART0 
         sta     FileStartBlock,X
         inx
         dey
