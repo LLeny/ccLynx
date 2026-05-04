@@ -14,12 +14,10 @@ pub(crate) fn write_block_size(
         .sorted_variables()
         .iter()
         .find(|v| v.1.var_const && v.0 == "BLOCKSIZE")
-    {
-        if let VariableDefinition::Value(value) = &var.def {
+        && let VariableDefinition::Value(value) = &var.def {
             let line = const_line(name, value, var.var_type);
             gstate.write(&format!("{line}\n"))?;
         }
-    }
     Ok(())
 }
 

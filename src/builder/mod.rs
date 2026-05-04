@@ -54,7 +54,7 @@ pub fn build_cartridge(
     let src = Path::new(crate::TEMP_SOURCE);
     let dst = Path::new(&args.output);
     compile_source_file(src, dst)?;
-    let _ = std::fs::remove_file(&src);
+    let _ = std::fs::remove_file(src);
 
     Ok(())
 }
@@ -71,10 +71,8 @@ fn create_source_file(
     banks_dest: &[u16],
 ) -> Result<(), cc6502::error::Error> {
     let zp_len = write_zeropage(&mut gstate, compiler_state)?;
-    if zp_len > 0xFF {
-        panic!("Zeropage variables total size is {zp_len} bytes, which exceeds the 255 bytes limit");
-    }
-    write_code_header(&mut gstate, compiler_state)?;
+    assert!(zp_len <= 0xFF, "Zeropage variables total size is {zp_len} bytes, which exceeds the 255 bytes limit");
+    write_code_header(&mut gstate, compiler_state);
     write_boot_loader(&mut gstate)?;
     write_bank_directory(&mut gstate, banks_dest)?;
     for (i, dest) in banks_dest.iter().enumerate() {

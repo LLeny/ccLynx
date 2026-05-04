@@ -34,7 +34,7 @@ fn main() -> Result<(), std::io::Error> {
         std::process::exit(1)
     }
 
-    let mut header = create_cart_header(&cli_args)?;
+    let mut header = create_cart_header(&cli_args);
     let dest = Path::new(&args.output);
     header.bank0_block_size = cli_args.block_size as u16; 
     prepend_lnx_header(dest, &header)?;

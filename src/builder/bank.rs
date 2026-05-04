@@ -20,7 +20,7 @@ pub(crate) fn write_bank_directory(
         gstate.write(&format!("dc.b >{bank_dest}\n"))?;
         gstate.write(&format!("dc.b <BANK{i}_LEN\n"))?;
         gstate.write(&format!("dc.b >BANK{i}_LEN\n"))?;
-        gstate.write(&format!("dc.b 0\n"))?;
+        gstate.write("dc.b 0\n")?;
     }
     gstate.write("DIRECTORY_END:\n")?;
     gstate.write("ROM_ADDR set ROM_ADDR + (DIRECTORY_END-DIRECTORY_START)\n")?;

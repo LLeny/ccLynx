@@ -67,8 +67,8 @@ impl CartHeader<'_> {
     }
 }
 
-pub(crate) fn create_cart_header(args: &'_ crate::CliArgs) -> Result<CartHeader<'_>, Error> {
-    Ok(CartHeader {
+pub(crate) fn create_cart_header(args: &'_ crate::CliArgs) -> CartHeader<'_> {
+    CartHeader {
         bank0_block_size: 0,
         bank1_block_size: 0,
         version: args.cart_version,
@@ -78,7 +78,7 @@ pub(crate) fn create_cart_header(args: &'_ crate::CliArgs) -> Result<CartHeader<
         aud: args.aud,
         eeprom: args.eeprom.into(),
         spare: [0u8; 3],
-    })
+    }
 }
 
 pub(crate) fn prepend_lnx_header(rom: &Path, header: &CartHeader) -> Result<(), Error> {
@@ -93,7 +93,6 @@ pub(crate) fn prepend_lnx_header(rom: &Path, header: &CartHeader) -> Result<(), 
     Ok(())
 }
 
-pub(crate) fn write_code_header(gstate: &mut GeneratorState, compiler_state: &CompilerState) -> Result<(), Error> {
+pub(crate) fn write_code_header(gstate: &mut GeneratorState, compiler_state: &CompilerState) {
     let _ = write_block_size(gstate, compiler_state);
-    Ok(())
 }
