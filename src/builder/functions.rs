@@ -143,7 +143,7 @@ pub(crate) fn write_functions(
         f.1.code.is_some() && !f.1.inline && f.1.bank == bank && f.0.as_str() == MAIN_FUNCTION
     }) {
         processed.insert(main.0.clone());
-        gstate.write(&format!("\n{}:\n", main.0.as_str()))?;
+        gstate.write(&format!("\n{}::\n", main.0.as_str()))?;
         gstate.write_function(main.0)?;
     }
 
@@ -162,7 +162,7 @@ pub(crate) fn write_functions(
             continue;
         }
 
-        gstate.write(&format!("\n{}:\n", f.0.as_str()))?;
+        gstate.write(&format!("\n{}::\n", f.0.as_str()))?;
         gstate.write_function(f.0)?;
         gstate.write("\tRTS\n")?;
 

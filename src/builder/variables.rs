@@ -14,7 +14,7 @@ pub(crate) fn write_non_zeropage(
     for v in vars.iter().filter(|v| {
         matches!(v.1.memory, VariableMemory::Bank(b) if b == bank)
             && !compiler_state.functions.contains_key(v.0)
-            && (!v.1.var_const || matches!(v.1.def, VariableDefinition::Array(_)))
+            && (!v.1.var_const || v.1.size > 1 || matches!(v.1.def, VariableDefinition::Array(_)))
     }) {
         write_variable_len(gstate, v.0, v.1)?;
     }
@@ -60,17 +60,30 @@ fn write_variable_len(
         }
     };
 
+    if var.alignment > 1 {
+        gstate.write(&format!("align {}\n", var.alignment))?;
+    }
+
     if let VariableDefinition::Array(values) = &var.def && var.var_type == VariableType::CharPtr {
-        let string_value: String = values
+        let char_values: Vec<String> = values
             .iter()
             .filter_map(|v| match v {
-                VariableValue::Int(c) if c >= &32 => Some(*c as u8),
+                VariableValue::Int(c) => Some(*c as u8),
                 _ => None,
             })
-            .map(|b| b as char)
+            .map(|b| format!("0x{b:02X}"))
             .collect();
 
-        gstate.write(&format!("{name:23}\tdb \"{string_value}\",0\n"))?;
+        gstate.write(&format!("{name}:\n"))?;
+
+        let char_chunks: Vec<Vec<String>> = char_values.chunks(50)
+            .map(<[std::string::String]>::to_vec)
+            .collect();
+
+        for chunk in char_chunks {
+            gstate.write(&format!("\t\tdb {}\n", chunk.join(",")))?;
+        }
+
     } else {
         gstate.write(&format!("{name:23}\tds {len}\n"))?;
     }

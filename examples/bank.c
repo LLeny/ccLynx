@@ -36,6 +36,7 @@ bank1 void test_bank1()
 
 void main()
 {
+    init_lynx();
     gear_push_str(hello_str_0);
     gear_flush();    
     gear_push_hex(0);

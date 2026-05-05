@@ -35,7 +35,7 @@ void interrupt irq6() {
 
 void main()
 {
-    install_irq_handler();
+    init_lynx();
     
     *TIM6BKUP = 1;
     *TIM6CTLA = 0x1d;

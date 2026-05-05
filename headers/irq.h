@@ -1,3 +1,5 @@
+#include "libc.h"
+
 #ifndef __IRQ_H__
 #define __IRQ_H__
 
@@ -6,7 +8,7 @@ zp unsigned char irq_bkp;
 zp unsigned char irq_x;
 
 === ASSEMBLER BEGIN ===
-_irq_handler:
+_irq_handler::
     phx 
     phy
     pha
@@ -36,10 +38,10 @@ _irq_end:
     plx
     rti
 
-_install_irq_handler:
+_install_irq_handler::
     sei
-    lda     #$C
-    sta     $FFF9
+    lda     #$0C
+    sta     MAPCTL
     ldx     #15
 ._install_irq_loop1:
     lda     #>_irq_return
@@ -56,7 +58,7 @@ _install_irq_handler:
     cli
     rts
 
-_clear_irq:
+_clear_irq::
     lda     #<_irq_return
     sta     irq_jmp_table, x
     lda     #>_irq_return
@@ -69,7 +71,7 @@ _clear_irq:
     sta     TIM0CTLA, x
     rts
 
-_set_irq:
+_set_irq::
     lda     libc_tmp
     sta     irq_jmp_table, x
     lda     libc_tmp_2
