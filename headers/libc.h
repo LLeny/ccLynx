@@ -2,7 +2,6 @@
 #define __LIBC_H__
 
 zp unsigned char libc_tmp;
-zp unsigned char libc_tmp_2;
 zp unsigned char * libc_ptr;
 
 #endif // __LIBC_H__

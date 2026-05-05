@@ -72,9 +72,9 @@ _clear_irq::
     rts
 
 _set_irq::
-    lda     libc_tmp
+    lda     libc_ptr
     sta     irq_jmp_table, x
-    lda     libc_tmp_2
+    lda     libc_ptr+1
     sta     irq_jmp_table+1, x
     txa
     asl
@@ -87,7 +87,7 @@ _set_irq::
 ==== ASSEMBLER END ====
 
 #define install_irq_handler() asm("jsr _install_irq_handler")
-#define set_irq(irq, irq_func) X = (irq)*2; libc_tmp = irq_func; libc_tmp_2 = irq_func >> 8; asm("jsr _set_irq") 
+#define set_irq(irq, irq_func) X = (irq)*2; libc_ptr = irq_func; asm("jsr _set_irq") 
 #define clear_irq(irq) X = (irq)*2; asm("jsr _clear_irq")
 #define irq_return() asm("jmp _irq_return")
 
