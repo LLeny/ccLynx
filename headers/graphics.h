@@ -79,13 +79,10 @@ void _graphics_draw_sprite_wait() {
 
 void _graphics_set_palette() {
     Y = 31;
-    while (1) {
+    do {
         GCOLMAP[Y] = libc_ptr[Y];
         Y--;
-        if (!Y) {
-            break;
-        }
-    }
+    } while (Y >= 0);
 }
 
 #define graphics_draw_sprite_wait(spr_ctrl) \
