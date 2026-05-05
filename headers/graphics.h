@@ -66,8 +66,6 @@ void graphics_init(unsigned char rate) {
 }
 
 void _graphics_draw_sprite_wait() {
-    *SCBNEXTL = X;
-    *SCBNEXTH = Y;
     *SPRGO = 1;
     *SDONEACK = 0;
     do {
@@ -86,8 +84,8 @@ void _graphics_set_palette() {
 }
 
 #define graphics_draw_sprite_wait(spr_ctrl) \
-    X = spr_ctrl; \
-    Y = spr_ctrl >> 8; \
+    *SCBNEXTL = spr_ctrl; \
+    *SCBNEXTH = spr_ctrl >> 8; \
     _graphics_draw_sprite_wait()
 
 #define graphics_set_palette(palette) \
