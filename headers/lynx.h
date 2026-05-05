@@ -268,14 +268,14 @@ void init_lynx() {
       Y = mikey_init_regs[X];
       HTIMBKUP[Y] = mikey_init_data[X];
       X--;
-    } while(X != 0);
+    } while(X >= 0);
 
     X = 6;
     do {
       Y = suzy_init_regs[X];
       TMPADRL[Y] = suzy_init_data[X];
       X--;
-    } while(X != 0);
+    } while(X >= 0);
 }
 
 #endif
