@@ -51,10 +51,9 @@ pub fn build_cartridge(
 
     create_source_file(compiler_state, args, gstate, &banks_dest)?;
 
-    let src = Path::new(crate::TEMP_SOURCE);
+    let temp_source = Path::new(&args.output).with_extension("s");
     let dst = Path::new(&args.output);
-    compile_source_file(src, dst)?;
-    let _ = std::fs::remove_file(src);
+    compile_source_file(&temp_source, dst)?;
 
     Ok(())
 }

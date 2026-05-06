@@ -13,8 +13,6 @@ use clap::Parser;
 use builder::build_cartridge;
 use crate::{builder::header::{create_cart_header, prepend_lnx_header}, cli::CliArgs};
 
-pub(crate) const TEMP_SOURCE: &str = "temp.s";
-
 fn main() -> Result<(), std::io::Error> {
     env_logger::init();
 
@@ -27,15 +25,21 @@ fn main() -> Result<(), std::io::Error> {
 
     let args = cli_args.to_old_args();
     let reader = BufReader::new(File::open(&args.input)?);
-    let mut writer = File::create(TEMP_SOURCE)?;
+    
+    let dest = Path::new(&args.output);
+    let temp_source = dest.with_extension("s");
+    let mut writer = File::create(&temp_source)?;
 
     if let Err(e) = compile(reader, &mut writer, &args, build_cartridge) {
         eprintln!("{e}");
         std::process::exit(1)
     }
 
+    if !cli_args.keep_asm {
+        let _ = std::fs::remove_file(&temp_source);
+    }
+
     let mut header = create_cart_header(&cli_args);
-    let dest = Path::new(&args.output);
     header.bank0_block_size = cli_args.block_size as u16; 
     prepend_lnx_header(dest, &header)?;
 

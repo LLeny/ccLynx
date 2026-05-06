@@ -88,6 +88,10 @@ pub(crate) struct CliArgs {
     /// Cart EEPROM type
     #[arg(long, value_enum, default_value_t = CartEepromArg::None)]
     pub eeprom: CartEepromArg,
+
+    /// Keep intermediate assembly file
+    #[arg(long, default_value = "false")]
+    pub keep_asm: bool,
 }
 
 #[derive(Copy, Clone, Debug, ValueEnum)]
