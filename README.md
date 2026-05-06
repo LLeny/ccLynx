@@ -56,7 +56,7 @@ cargo run -- examples/graphics.c -I./headers -ographics.lnx --keep-asm
 ## Command-line options
 
 ```
-Usage: ccLynx [OPTIONS] [INPUT]
+Usage: ccLynx [INPUT] [OPTIONS]
 
 Arguments:
   [INPUT]  Input file name [default: stdin]
