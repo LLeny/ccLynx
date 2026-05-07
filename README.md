@@ -34,7 +34,7 @@ Use `cargo install --path .` in the root directory to compile and install ccLynx
 
 Alternatively, if you have Rust installed, you can use ccLynx directly with `cargo run --`:
 ```bash
-cargo run -- [OPTIONS] <INPUT>
+cargo run -- <INPUT> [OPTIONS]
 ```
 
 ## Examples
