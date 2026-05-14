@@ -80,7 +80,7 @@ jobs:
       - name: Flatten artifacts
         run: |
           mkdir -p release-files
-          find artifacts -type f -name "*.tar.gz" -o -name "*.zip" | while read file; do
+          find artifacts -type f \( -name "*.tar.gz" -o -name "*.zip" \) | while read file; do
             cp "$file" release-files/
           done
 
