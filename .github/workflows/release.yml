@@ -79,13 +79,13 @@ jobs:
 
       - name: Flatten artifacts
         run: |
-          find artifacts -mindepth 2 -type f -exec mv {} artifacts \;
-          find artifacts -type d -empty -delete
+          mkdir -p release-files
+          find artifacts -type f -name "*.tar.gz" -o -name "*.zip" | while read file; do
+            cp "$file" release-files/
+          done
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            artifacts/ccLynx-*.tar.gz
-            artifacts/ccLynx-*.zip
+          files: release-files/*
           generate_release_notes: true
